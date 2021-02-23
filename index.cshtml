@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Admin";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<br />
+<div class="alert alert-info" id="header">
+    Login Section
+</div>
+<div class="row">
+    <div class="col-md-9" style="align-items:center">
+        <form id="login" name="login" action="" method="post" novalidate>
+            <input type="hidden" id="RequestVerificationToken"
+                   name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
+            <fieldset class="panel data-display pre-populated-data-inline">
+                <div id="username">
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <label id="lblUserName" class="control-label">User Name</label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="text" id="txtUserName" name="txtUserName" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div id="password">
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <label id="lblPassword" class="control-label">Password</label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="password" id="txtPassword" name="txtPassword" class="form-control" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-7">
+                        <input type="submit" value="Login" id="btnLogin" name="btnLogin" class="btn btn-primary" />
+                        <input type="button" value="Reset" id="btnReset" name="btnReset" class="btn btn-primary" />
+                    </div>
+
+                </div>
+                <div class="row form-group" id="lblLoginError">
+                    <div class="col-md-8" style="text-align:center">
+                        <span class="error" style="color:red">Invalid User Id or Password.</span>
+                    </div>
+                </div>
+                <div class="row form-group" id="lblLoginSuccess">
+                    <div class="col-md-8" style="text-align:center">
+                        <span class="text-success" >Login Successful.</span>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
